@@ -1,0 +1,12 @@
+{
+  "Employee": true,
+  "roles": [
+    "Member",
+    "Admin",
+    "Employee"
+  ],
+  "name": "Thao",
+  "id": 1,
+  "Admin": true,
+  "email": "thao@fpt.edu.vn"
+}
