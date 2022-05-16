@@ -3,22 +3,25 @@ package jdbcapp.mvc.files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static jdk.internal.org.jline.utils.InfoCmp.Capability.user1;
+
 public class DemoJsonWrite {
     public static void main(String[] args) throws IOException {
         writeDemo1();
         writeDemo2();
         writeDemo3();
-
+        readDemo();
+        readDemoFromMap();
     }
 
     public static void writeDemo1() throws IOException {
@@ -85,9 +88,36 @@ public class DemoJsonWrite {
         System.out.println("Ghi file json thanh cong");
     }
 
-    public static void readDemo(){
+    public static void readDemo() {
         //read file json
-        public List
+        List<Student> studentList = new ArrayList<>();
+        try {
+            FileReader reader = new FileReader("student.json");
+            Type objectType = new TypeToken<List<Student>>() {
+            }.getType();
+            studentList = new Gson().fromJson(reader, objectType);
+            for (Student student : studentList) {
+                System.out.println(student);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
 
+            }
+         }
+
+    public static void readDemoObject() throws IOException{
+        Gson gson = new Gson();
+        Reader reader = Files.newBufferedReader(Paths.get("user3.json"));
+        User user = gson.fromJson(reader, User.class);
+        System.out.println(user);
+        reader.close();
+    }
+    public static void readDemoFromMap() throws IOException{
+        Reader reader = Files.newBufferedReader(Paths.get("user1.json"));
+        Map<?, ?> map = new Gson().fromJson(reader, Map.class);
+        for(Map.Entry<?, ?>entry : map.entrySet()) {
+            System.out.println(entry.getKey() + "=" + entry.getValue());
+        }
+        reader.close();
     }
 }
